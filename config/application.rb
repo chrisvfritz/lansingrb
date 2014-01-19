@@ -26,5 +26,8 @@ module Lansingrb
         ENV[key.to_s] = value
       end if File.exists?(env_file)
     end
+
+    config.assets.initialize_on_precompile = false
+    routes.named_routes[:forem] ||= Journey::Route.new(nil, nil, Journey::Path::Pattern.new("\forums"), {})
   end
 end
