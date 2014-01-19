@@ -1,0 +1,34 @@
+doctype
+html
+
+  head
+    title Lansing.rb
+    
+    /![if lt IE 9]
+      script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"
+
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+
+  body
+
+    nav.navbar.navbar-default.navbar-static-top role="navigation"
+      .container
+        .navbar-header
+          = link_to 'Lansing.rb', '/', class: 'navbar-brand'
+        ul.nav.navbar-nav
+          li= link_to 'Forums', '/forums'
+        ul.nav.navbar-nav.navbar-right
+          - if user_signed_in?
+            li= link_to "Log out as #{current_user.fullname}", main_app.destroy_user_session_path, method: :delete
+          - else
+            li= link_to 'Sign in with Github', main_app.user_omniauth_authorize_path(:github)
+
+    .container
+      - if notice
+        p.alert.alert-info= notice
+      - if alert
+        p.alert.alert-error= alert
+      = yield
